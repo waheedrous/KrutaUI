@@ -1,0 +1,51 @@
+# git ignore file
+*.cache
+*.nupkg
+*resharper.user
+_ReSharper.*/
+*.orig
+
+#ignore thumbnails created by windows
+Thumbs.db
+
+#Ignore files build by Visual Studio
+*.obj
+#*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.gen
+*.vsp
+*.vspscc
+*.vssscc
+*.vsp
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+#[Rr]elease*/
+^[Rr]elease$
+[Oo]bj/
+RSSFeedCache/
+*.lib
+*.sbr
+*.sdf
+Upload/
+
+#Ignore SASS temp Files
+.sass-cache/
+
+#Ignore Test folder
+TestResults/
+
+#Ignore .vs folder after upgrade to VS 2015
+.vs/

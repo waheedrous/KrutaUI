@@ -1,0 +1,125 @@
+﻿<link rel="stylesheet" href="//kendo.cdn.telerik.com/2017.1.118/styles/kendo.common-bootstrap.min.css" />
+<link rel="stylesheet" href="//kendo.cdn.telerik.com/2017.1.118/styles/kendo.bootstrap.min.css" />
+<script src="//kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+<script src="//kendo.cdn.telerik.com/2017.1.118/js/kendo.aspnetmvc.min.js"></script>
+<style>
+.k-grid-header .k-header {
+                    background-color:#D1D8E9;
+                    font-weight: 700 !important;
+                        }
+.k-grid tr td {
+    border-right:0 !important;
+    border-left:0 !important;
+    border-top:0 !important;
+}
+.k-alt {
+    background-color:#F1F3F9;
+    border-right:0 !important;
+    border-left:0 !important;
+    border-top:0 !important;
+}
+.success {
+       background-color: #4CAF50;
+}
+        /* Green */
+.success:hover {
+       background-color: #46a049;
+}
+.warning {
+       background-color: #ff9800;
+    }
+
+</style>
+
+<div class="container-fluid text-right">
+                    <b class="custom-title-left" style="float:left;color:#2E3D5E">Document Queue</b>
+                    <div class="btn-group" style="padding-bottom:5px">
+                        <button type="button" class="btn warning" style="border: none; background-color: #8CBA26;color:white; padding: 8px 60px; text-align: center; font-size: 16px; float: left;"
+                            data-toggle="modal" data-target="#assignModal">
+                            ASSIGN</button>
+                    </div>
+</div>
+<!-- Modal Start 1 -->
+<div class="modal fade" id="assignModal" role="dialog">
+    <div class="modal-dialog" style="padding-top:15%">
+
+        <!-- Modal Content Start -->
+        <div class="modal-content" style="background-color:#F1F3F9;width:80%">
+            <div class="modal-header" style="background-color:#2E3D5E;padding-top:10px">
+                <button type="button" class="close" style="color:white" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title"  style="color:white;font-size:medium">Assign Document(s) To</h6>
+            </div>
+            <div class="modal-body">
+                <!-- Form Start -->
+                <div class="container">
+                    <form>
+                        <div class="form-group" style="padding-top:15px">
+                           
+                            <label for="routingControlStaff">Assign To :</label>
+                            <select class="form-control form-control-custom" id="routingControlStaff">
+                                <option value="tianxuLi" selected="selected">Tianxu Li</option>
+                                <option value="amandaElish">Amanda Elish</option>
+                                <option value="rawanShreim">Rawan Shreim</option>
+                                <option value="annaPavlenko">Anna Pavlenko</option>
+                                <option value="summerZhang">Summer Zhang</option>
+                                <option value="salahAhmad">Salah Ahmad</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <!-- Form End -->
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-warning" data-dismiss="modal" style="background-color:#91A2C9; padding: 8px 30px;">Assign</button>
+            </div>
+        </div>
+        <!-- Modal Content End -->
+
+    </div>
+</div>
+<div class="container-fluid">
+<div class="row">
+
+    @(Html.Kendo().Grid<HPE.Kruta.Model.Queue>()
+      .Name("DocumentQueue")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.QueueID)
+                 .ClientTemplate("<input type='checkbox' id='chkSelect' value='#= QueueID #' />")
+                 .Filterable(cc => cc.Enabled(false))
+                 .Width(30)
+                 .Title("")
+                 .HtmlAttributes(new { style = "text-align: center" })
+                 .HeaderTemplate("<span title='Select all documents'><input type='checkbox' id='chkSelectAll' /></span>")
+                 .HeaderHtmlAttributes(new { style = "text-align: center" })
+                 .Sortable(false);
+          columns.Bound(c => c.QueueID).Title("ID").Width(150).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false)));
+          columns.Bound(c => c.ReceivedDateTime).Title("Received Date").Format("{0:MM/dd/yyyy}").Width(200);
+          columns.Bound(c => c.RecordedDateTime).Title("Recorded Date").Format("{0:MM/dd/yyyy}").Width(200);
+          columns.Bound(c => c.Property.ParcelNumber).Title("Parcel Number").Width(200);
+          columns.Bound(c => c.Document.DocumentNumber).Title("Document Number").Width(200);
+          columns.Bound(c => c.Document.DocumentSubType.Code).Title("Document Type").Width(200);
+          columns.Bound(c => c.Department.DepartmentName).Title("Queue/Department").Width(200);
+          columns.Bound(c => c.Employee.EmployeeName).Title("Assigned To").Width(200);
+          columns.Bound(c => c.QueueStatus.Description).Title("Status").Width(200);
+          columns.Bound(c => c.Document.DocumentStatus.Description).Title("Document Status").Width(200);
+          columns.Bound(c => c.Department.DepartmentCode).Title("Flagged").Width(200);
+      })
+      .Scrollable(s => s.Height("auto"))
+      .Sortable()
+      .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+      .Selectable()
+      .Pageable(pageable => pageable
+                            .PageSizes(new string[] { "5", "10", "20", "50", "All" })
+                            //.PageSizes(true)
+                            .ButtonCount(5))
+      .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .Sort(sort => sort.Add("QueueID").Ascending())
+                                .PageSize(10)
+                                .Read(read => read.Action("Queues_Read", "DocumentQueue")))
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+    )
+</div>
+    </div>

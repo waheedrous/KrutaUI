@@ -1,0 +1,33 @@
+﻿@model HPE.Kruta.Model.Queue
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="row">
+    <div class="col-md-1 sidenav">
+        @section Sidebar {
+            <p>Put you sidebar stuff here!</p>
+        }
+    </div>
+
+    <div class="col-md-11" style="padding-right:60px;padding-left:60px">
+        Home > Document > Queue
+        <p>
+            <div class="container-fluid" >
+                <div class="row">
+                    @Html.Partial("_DocumentQueuePartial")
+                </div>
+                <div class="row">
+                    @Html.Partial("_QueueDetailsPartial", Model)
+                </div>
+            </div>
+        </p>
+        <p></p>
+        <p>
+
+        </p>
+    </div>
+</div>
